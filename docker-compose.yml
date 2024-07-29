@@ -7,7 +7,7 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=docker"
     ports:
-      - 8080:8080
+      - 7777:7777
     depends_on:
       - postgres
       - keycloak
@@ -31,9 +31,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: "admin"
       KEYCLOAK_ADMIN: "admin"
       KEYCLOAK_LOGLEVEL: DEBUG
-#    command: ['start-dev', '--debug', '--import-realm', '--features=client-policies']
     command: ['start-dev', '--debug', '--import-realm', '--http-port=8181', '--features=client-policies']
-#    command: ['start-dev', '--debug', '--import-realm', '--http-port=8787', '-Djboss.http.port=8787', '--features=client-policies']
     ports:
       - 8787:8181
     networks:

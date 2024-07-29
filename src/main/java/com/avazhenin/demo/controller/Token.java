@@ -7,6 +7,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/token")
+@Profile("!test")
 public class Token {
 
     @Value("${keycloak.auth-server-url}")
@@ -41,7 +43,7 @@ public class Token {
 
             var requestConfig = RequestConfig.custom().build();
             var httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();
-            var request = new HttpPost(String.format("%s/realms/%s/protocol/openid-connect/token", authServerURL, clientId));
+            var request = new HttpPost(String.format("%s/realms/master/protocol/openid-connect/token", authServerURL));
             request.setEntity(new UrlEncodedFormEntity(form));
             JSONObject json = new JSONObject(EntityUtils.toString(httpClient.execute(request).getEntity()));
 
